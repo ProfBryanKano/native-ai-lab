@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5f1"><meta name="description" content="Uma arena de negociação e teoria dos jogos entre agentes de IA conectados por MCP.">
+  <title>Accord — Agent negotiation arena</title>
+  <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script>
+</head>
+<body>
+  <div id="login" class="login-screen">
+    <div class="login-brand"><span class="mark">Λ</span> ACCORD <span class="muted">/ Agent systems</span></div>
+    <main class="login-main">
+      <div class="eyebrow">MULTI-AGENT NEGOTIATION ENVIRONMENT</div>
+      <h1>Interesses distintos.<br>Uma mesa em comum.</h1>
+      <p>Uma arena para observar modelos conversando, negociando e competindo. Cada escolha tem consequências.</p>
+      <form id="login-form" class="login-form"><label for="admin-key">CHAVE DE ACESSO</label><div class="input-row"><input id="admin-key" type="password" autocomplete="current-password" required placeholder="Chave de administração"><button class="primary" type="submit">Entrar <span>↗</span></button></div><small>Acesso privado ao seu ambiente de experimentação.</small><div id="login-error" role="alert" class="error"></div></form>
+      <div class="login-spec"><span>01 / CONVERSAR</span><span>02 / DECIDIR</span><span>03 / REVELAR</span></div>
+    </main>
+    <div class="login-graphic" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><span class="node n1">A</span><span class="node n2">B</span><span class="node n3">C</span><div class="graphic-caption">INDEPENDENT AGENTS<br>SHARED CONSEQUENCES</div></div>
+    <footer class="login-footer"><span>ACCORD / RESEARCH ENVIRONMENT</span><span>MCP CONNECTED · LOCALLY EXECUTED</span></footer>
+  </div>
+  <div id="workspace" class="workspace" hidden>
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="Accord início"><span class="mark">Λ</span> ACCORD<span class="brand-square">A / 01</span></a>
+      <div class="nav-caption">WORKSPACE</div><div class="nav-current"><span>▦</span> Arena de negociação <span class="nav-index">01</span></div>
+      <div class="session-heading"><span>SESSÕES</span><button id="new-sidebar" class="icon-button" title="Nova sessão" aria-label="Nova sessão">+</button></div>
+      <nav id="sessions" aria-label="Sessões"></nav>
+      <div class="sidebar-bottom"><button id="connection-info" class="text-button">↗ Guia de conexão</button><div class="protocol-line"><span class="status-dot"></span> MCP / HTTP</div><button id="logout" class="text-button muted">Sair do ambiente</button></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><div><span class="muted">Workspace</span><span class="slash">/</span> Arena</div><div class="topbar-right"><span id="sync-status" class="sync-status"><span class="status-dot"></span> Sincronizado</span><span class="operator-badge">OP</span></div></header>
+      <section class="page-heading"><div><div class="eyebrow">STRATEGIC INTERACTION / LIVE OBSERVATORY</div><h1>Mesa de negociação<span class="heading-period">.</span></h1><p>Observe as conversas. Acompanhe as escolhas. Conheça o resultado.</p></div><button id="new-match" class="primary">+ Nova sessão</button></section>
+      <section id="empty" class="empty-state"><div class="empty-symbol" aria-hidden="true">⌑</div><span class="eyebrow">A MESA ESTÁ ABERTA</span><h2>Convide interesses diferentes.</h2><p>Crie uma sessão, conecte seus modelos e deixe os agentes<br>conversarem entre si até o resultado.</p><button id="new-empty" class="secondary">Criar primeira sessão <span>↗</span></button><div class="empty-foot"><span>02—06 AGENTES</span><span>CONVERSA ENTRE MODELOS</span><span>DECISÕES PRIVADAS</span></div></section>
+      <div id="match-content" hidden>
+        <section class="overview"><div><span class="label">SESSÃO ATIVA</span><h2 id="match-name"></h2></div><div class="metric"><span class="label">RODADA</span><strong id="round-metric"></strong></div><div class="metric"><span class="label">META DE VITÓRIA</span><strong id="target-metric"></strong></div><div class="metric"><span class="label">ESTADO</span><strong id="phase-metric" class="phase-value"></strong></div><div id="controls" class="controls"></div></section>
+        <div id="result-banner" class="result-banner" hidden></div>
+        <div class="arena-grid"><section class="conversation-panel"><div class="panel-heading"><div class="tab-list" role="tablist" aria-label="Visualização da sessão"><button id="tab-chat" role="tab" aria-selected="true" class="tab active">Conversa <span id="message-count">0</span></button><button id="tab-log" role="tab" aria-selected="false" class="tab">Registro da partida</button></div><button id="export" class="text-button">Exportar ↗</button></div><div id="conversation" class="conversation" aria-live="polite" aria-relevant="additions"></div><div class="conversation-footer"><span id="turn-status"></span><span class="mono">MCP CHANNEL</span></div></section>
+          <aside class="inspector"><section class="agents-panel"><div class="panel-heading"><h3>Agentes na mesa</h3><span id="agent-count" class="count-badge">0 / 6</span></div><div id="agents"></div><button id="add-agent" class="add-agent">+ Conectar agente</button></section>
+          <section class="rules-panel"><div class="panel-heading"><h3>O jogo</h3><span class="tiny-tag">DILEMA REPETIDO</span></div><p>Todos negociam. Depois, cada agente escolhe <b>cooperar</b> ou <b>trair</b> contra a mesa inteira.</p><table class="payoff"><caption>Pontos para você / adversário, por par</caption><thead><tr><th scope="col">Você ↓ / Outro →</th><th scope="col">Coopera</th><th scope="col">Trai</th></tr></thead><tbody><tr><th scope="row">Coopera</th><td>3 / 3</td><td>0 / 5</td></tr><tr><th scope="row">Trai</th><td>5 / 0</td><td>1 / 1</td></tr></tbody></table><div class="rule-note"><span>↳</span><p>Vence o líder único que alcançar a meta ao fim de uma rodada. Empates continuam até o limite.</p></div></section>
+          <div class="execution-note"><span>↗</span><div><strong>Modelos no seu notebook</strong><p>Chaves OpenRouter ficam no executor local. Esta arena recebe as jogadas por MCP.</p></div></div></aside></div>
+      </div>
+      <footer class="page-footer"><span>ACCORD / AGENT NEGOTIATION ARENA</span><span>CONVERSATION → COMMITMENT → OUTCOME</span></footer>
+    </main>
+  </div>
+  <dialog id="modal"><form method="dialog" class="modal-close-form"><button class="icon-button" aria-label="Fechar">×</button></form><div id="modal-body"></div></dialog>
+  <div id="toast" role="status" hidden></div>
+</body>
+</html>

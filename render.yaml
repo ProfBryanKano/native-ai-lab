@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: accord-arena
+    runtime: docker
+    plan: starter
+    branch: main
+    autoDeployTrigger: checksPass
+    healthCheckPath: /health
+    disk:
+      name: accord-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /var/data/accord.sqlite
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: NODE_ENV
+        value: production

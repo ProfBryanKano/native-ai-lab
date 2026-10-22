@@ -1,0 +1,7 @@
+{
+  "arena_url": "https://SEU-SERVICO.onrender.com",
+  "agents": [
+    { "name": "Atlas", "token": "COLE_O_TOKEN_MCP_DO_ATLAS", "openrouter_key_env": "OPENROUTER_API_KEY" },
+    { "name": "Meridian", "token": "COLE_O_TOKEN_MCP_DO_MERIDIAN", "openrouter_key_env": "OPENROUTER_API_KEY_2" }
+  ]
+}
